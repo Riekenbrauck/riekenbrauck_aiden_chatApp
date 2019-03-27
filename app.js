@@ -1,7 +1,6 @@
 var express = require('express');
 var app = express();
-var http = require('http').Server(app);
-var io = require('socket.io')(http);
+var io = require('socket.io')();
 
 const port = process.env.PORT || 3000;
 
@@ -12,7 +11,26 @@ app.get('/', (req, res) => {
     res.sendFile(__dirname + '/views/index.html');
 });
 
-http.listen(port, () =>{
+const server = app.listen(port, () =>   {
+    console.log(`app is running on port ${port}`);
+});
 
-    console.log(`app is running on port ${port}`)
+// socket.io chat app stuff to follow
+io.attach(server);
+
+io.on('connection', function(socket) {
+    console.log('a user has joined');
+
+    socket.emit('connected', {sID: `${socket.id}`, message: 'new connection'} );
+
+    socket.on('chat message', function(msg) {
+        console.log('message: ', msg, 'socket:', socket.id);
+
+        //send the message to everyone connected to the app
+        io.emit('chat message', { id: `${socket.id}`, message: msg });
+    });
+
+    socket.on('disconnect', function(){
+        console.log('a user has disconnected');
+    });
 });
