@@ -21,6 +21,6 @@ To download to repo give a good ol' git clone of https://github.com/Riekenbrauck
 4. Run your instance of the app with `npm start`, at [localhost:3000]
 
 
-[heroku]
+[https://heroku-chat-riekenbrauck.herokuapp.com/]
 
 
