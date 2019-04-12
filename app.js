@@ -2,6 +2,7 @@ var express = require('express');
 var app = express();
 var io = require('socket.io')();
 
+
 const port = process.env.PORT || 3000;
 
 //tell express where our static files are _js, images, css, etc)
@@ -30,7 +31,12 @@ io.on('connection', function(socket) {
         io.emit('chat message', { id: `${socket.id}`, message: msg });
     });
 
+    
+
     socket.on('disconnect', function(){
         console.log('a user has disconnected');
     });
+
+
+
 });
